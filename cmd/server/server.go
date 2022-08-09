@@ -46,9 +46,18 @@ func main() {
 	}
 	fmt.Println(db.Stats().OpenConnections)
 
-	mux.HandleFunc("/", hanfleF)
-	mux.HandleFunc("/id", handlerF2)
+	mux.HandleFunc("/post", hanfleF)
+	mux.HandleFunc("/get/id", handlerF2)
+	mux.HandleFunc("/", handlerF3)
+
 	http.ListenAndServe("localhost:8080", mux)
+}
+
+func handlerF3(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("HELLO FROM HF3")
+	w.Write([]byte("HELLO!!!"))
+	// q := r.URL.RawQuery
+	// http.Redirect(w, r, q, http.StatusTemporaryRedirect)
 }
 
 type URLs struct {
@@ -74,12 +83,12 @@ func handlerF2(w http.ResponseWriter, r *http.Request) {
 		var URLs = URLs{}
 		for rows.Next() {
 			err = rows.Scan(&URLs.fullURL, &URLs.cutURL)
+
 			checkErr(err)
 			if query == URLs.cutURL {
 				w.Header().Set("Location", URLs.fullURL)
-				// http.Redirect(w, r, URLs.fullURL, http.StatusTemporaryRedirect)
 				// w.WriteHeader(http.StatusTemporaryRedirect)
-				// w.Write([]byte("bye!"))
+				// http.Redirect(w, r, URLs.fullURL, http.StatusTemporaryRedirect)
 				return
 			}
 		}
@@ -122,6 +131,6 @@ func hanfleF(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
 		w.Write([]byte("localhost:8080/" + URLs.cutURL))
 	default:
-		http.Error(w, "Only GET requests are allowed!", http.StatusUnauthorized)
+		http.Error(w, "Only POST requests are allowed!", http.StatusUnauthorized)
 	}
 }

@@ -8,15 +8,19 @@ import (
 	"os"
 )
 
+const (
+	id1 = "c0e2fd12-1105-4cbf-b8d8-99881602ad25"
+)
+
 func main() {
-	post()
+	// post()
 	get()
 }
 
 func get() {
 	client := http.Client{}
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8080/id?c0e2fd12-1105-4cbf-b8d8-99881602ad25", nil)
-
+	req, err := http.NewRequest(http.MethodGet, "http://localhost:8080/get/id?"+id1, nil)
+	fmt.Println(req.URL.RawQuery)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,7 +37,7 @@ func post() {
 	client := http.Client{}
 	var URL string
 	fmt.Scanf("%s\n", &URL)
-	req, err := http.NewRequest(http.MethodPost, "http://localhost:8080", nil)
+	req, err := http.NewRequest(http.MethodPost, "http://localhost:8080/post", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
