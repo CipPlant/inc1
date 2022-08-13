@@ -8,9 +8,9 @@ import (
 	"os"
 )
 
-const (
-	id1 = "c0e2fd12-1105-4cbf-b8d8-99881602ad25"
-)
+// const (
+// 	id1 = "c0e2fd12-1105-4cbf-b8d8-99881602ad25"
+// )
 
 func main() {
 	// post()
@@ -19,7 +19,7 @@ func main() {
 
 func get() {
 	client := http.Client{}
-	req, err := http.NewRequest(http.MethodGet, "http://localhost:8080/get/id?"+id1, nil)
+	req, err := http.NewRequest(http.MethodGet, "http://localhost:8080/get/id?c0e2fd12-1105-4cbf-b8d8-99881602ad25", nil)
 	fmt.Println(req.URL.RawQuery)
 	if err != nil {
 		log.Fatal(err)

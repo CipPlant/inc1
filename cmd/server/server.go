@@ -46,16 +46,16 @@ func main() {
 	}
 	fmt.Println(db.Stats().OpenConnections)
 
-	mux.HandleFunc("/post", hanfleF)
-	mux.HandleFunc("/get/id", handlerF2)
-	mux.HandleFunc("/", handlerF3)
+	mux.HandleFunc("/post", handlerF)
+	mux.HandleFunc("/get/id", handlerF1)
+	mux.HandleFunc("/", handlerF2)
 
 	http.ListenAndServe("localhost:8080", mux)
 }
 
-func handlerF3(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("HELLO FROM HF3")
+func handlerF2(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("HELLO!!!"))
+	fmt.Println("HELLO FROM HF2")
 	// q := r.URL.RawQuery
 	// http.Redirect(w, r, q, http.StatusTemporaryRedirect)
 }
@@ -72,7 +72,7 @@ func checkErr(err error) error {
 	return nil
 }
 
-func handlerF2(w http.ResponseWriter, r *http.Request) {
+func handlerF1(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("HELLO FROM HF1", time.Now())
 	query := r.URL.RawQuery
 
@@ -86,9 +86,9 @@ func handlerF2(w http.ResponseWriter, r *http.Request) {
 
 			checkErr(err)
 			if query == URLs.cutURL {
+				// http.Redirect(w, r, URLs.fullURL, http.StatusTemporaryRedirect)
 				w.Header().Set("Location", URLs.fullURL)
 				// w.WriteHeader(http.StatusTemporaryRedirect)
-				// http.Redirect(w, r, URLs.fullURL, http.StatusTemporaryRedirect)
 				return
 			}
 		}
@@ -97,7 +97,7 @@ func handlerF2(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Only GET requests are allowed!", http.StatusBadRequest)
 }
 
-func hanfleF(w http.ResponseWriter, r *http.Request) {
+func handlerF(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("HELLO FROM HF", time.Now())
 
 	switch {
